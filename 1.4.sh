@@ -57,7 +57,7 @@ read -p "Press enter to continue "
 echo ----------------------------------------------------------------
 
 echo 'securing apache 2'
-echo'.'
+
 #Secure Apache 2
 if [ -e /etc/apache2/apache2.conf ]; then
 	echo \<Directory \> >> /etc/apache2/apache2.conf
@@ -79,7 +79,7 @@ if [ $?==0 ]; then
                 sed -i 's/PermitRootLogin yes/PermitRootLogin no/g' /etc/ssh/sshd_config
                	echo $(date): PermitRootLogin rule detected in SSH >> /var/log/ryanlog.log
            	
-		break>> /dev/null
+
 
 fi
 cat /etc/ssh/sshd_config | grep Protocol | grep 1
@@ -88,7 +88,7 @@ if [ $?==0 ]; then
                 sed -i 's/Protocol 1,2/Protocol 2/g' /etc/ssh/sshd_config
                	echo $(date): Protocol rule detected in SSH >> /var/log/ryanlog.log
         	
-		break>> /dev/null
+
 
 fi
 grep X11Forwarding /etc/ssh/sshd_config | grep yes
@@ -96,7 +96,7 @@ if [ $?==0 ]; then
                 sed -i 's/X11Forwarding yes/X11Forwarding no/g' /etc/ssh/sshd_config
                	echo $(date): X11Forwarding rule detected in SSH >> /var/log/ryanlog.log
      	        
-		break>> /dev/null
+
 
 fi
 
@@ -109,8 +109,7 @@ grep PermitEmptyPasswords /etc/ssh/sshd_config | grep yes
 if [ $?==0 ]; then
                 sed -i 's/PermitEmptyPasswords yes/PermitEmptyPasswords no/g' /etc/ssh/sshd_config
                	echo $(date): PermitEmptyPasswords rule detected in SSH >> /var/log/mikescript.log
-     	        msg=$(echo PermitEmptyPasswords rule changed to no | sed 's/\//%2F/g' | sed 's/\./%2E/g' | sed 's/\ /%20/g'  )
-		break>> /dev/null
+     	        #msg=$(echo PermitEmptyPasswords rule changed to no | sed 's/\//%2F/g' | sed 's/\./%2E/g' | sed 's/\ /%20/g'  )
 
 fi
 grep NOPASSWD /etc/sudoers
@@ -118,13 +117,13 @@ if [ $?==0 ]; then
                tits=$(grep NOPASSWD /etc/sudoers)
 		sed -i 's/$tits/ /g' /etc/sudoers
 		echo $(date): NOPASSWD rule detected >> /var/log/mikescript.log
-     	        msg=$(echo SUDOERS NOPASSWD rule removed | sed 's/\//%2F/g' | sed 's/\./%2E/g' | sed 's/\ /%20/g'  )
-		break>> /dev/null
+     	        #msg=$(echo SUDOERS NOPASSWD rule removed | sed 's/\//%2F/g' | sed 's/\./%2E/g' | sed 's/\ /%20/g'  )
+
 
 fi
 cd /etc/sudoers.d && ls /etc/sudoers.d | grep -v cyberpatriot | grep -v scor | xargs rm
-     	        msg=$(echo Removed any sudoers.d rules other than cyberpatriot | sed 's/\//%2F/g' | sed 's/\./%2E/g' | sed 's/\ /%20/g'  )
-		break>> /dev/null
+     	        #msg=$(echo Removed any sudoers.d rules other than cyberpatriot | sed 's/\//%2F/g' | sed 's/\./%2E/g' | sed 's/\ /%20/g'  )
+
 		
 read -p "Press enter to continue "
 echo ----------------------------------------------------------------
@@ -134,8 +133,8 @@ echo ----------------------------------------------------------------
 echo: Disabling CTRL ALT DELETE
 
 sed '/^exec/ c\exec false' /etc/init/control-alt-delete.conf 
-     	        msg=$(echo Ctrl alt delete is disabled | sed 's/\//%2F/g' | sed 's/\./%2E/g' | sed 's/\ /%20/g' )
-		break>> /dev/null
+     	        #msg=$(echo Ctrl alt delete is disabled | sed 's/\//%2F/g' | sed 's/\./%2E/g' | sed 's/\ /%20/g' )
+
 
 read -p "Press enter to continue "
 
