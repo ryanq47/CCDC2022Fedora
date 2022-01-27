@@ -12,6 +12,7 @@ echo changing root password cause security bro >> /var/log/ryanlog.log
 passwd root
 echo root password is changed
 
+## show all users to double check for /nologin
 echo listing all users with UID above 999
 cat /etc/passwd | grep '1[0-9][0-9][0-9]'
 
@@ -27,9 +28,11 @@ echo Turning on firewalld NOTWORKINGRN
 echo 'Allowing ports 25 (SMTP) 110 (pop3) and 143 (IMAP) to be open'
 echo Check for additional ports and services that should not be open
 
+echo ----------------------------------------------------------------
+
 read -p "Press enter to continue "
 
-echo ----------------------------------------------------------------
+
 	
 #root only in chron
 echo Allowing only root in chron
@@ -190,7 +193,7 @@ echo $(date): Logging media >> /var/log/ryanlog.log
 
 
 echo installing tools
-## note, may not need for actual comp
+# note, may not need for actual comp
 read -p "Press enter to install RKhunter - it will auto run a scan"
 
 	dnf install rkhunter -y
@@ -200,6 +203,6 @@ read -p "Press enter to install RKhunter - it will auto run a scan"
 
 	rkhunter --check
 
-	echo results logged at /var/log/rkhunter/rkhunter.log
+	echo 'results logged at /var/log/rkhunter/rkhunter.log'
 	
-	##finish up - uhhhm add stuff - find a way to make only root have access/check sudoers file etc
+	#finish up - uhhhm add stuff - find a way to make only root have access/check sudoers file etc
