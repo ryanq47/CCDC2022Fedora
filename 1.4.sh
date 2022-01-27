@@ -53,10 +53,11 @@ echo Setting root:root for apache/apache2 if present
 chown -R root:root /etc/apache2
 chown -R root:root /etc/apache
 
-
-echo ----------------------------------------------------------------
 read -p "Press enter to continue "
+echo ----------------------------------------------------------------
+
 echo 'securing apache 2'
+echo'.'
 #Secure Apache 2
 if [ -e /etc/apache2/apache2.conf ]; then
 	echo \<Directory \> >> /etc/apache2/apache2.conf
@@ -77,7 +78,7 @@ cat /etc/ssh/sshd_config | grep PermitRootLogin | grep yes
 if [ $?==0 ]; then
                 sed -i 's/PermitRootLogin yes/PermitRootLogin no/g' /etc/ssh/sshd_config
                	echo $(date): PermitRootLogin rule detected in SSH >> /var/log/ryanlog.log
-           	msg=$(echo PermitRootLogin rule changed | sed 's/\//%2F/g' | sed 's/\./%2E/g' | sed 's/\ /%20/g' )
+           	
 		break>> /dev/null
 
 fi
@@ -86,7 +87,7 @@ if [ $?==0 ]; then
                 sed -i 's/Protocol 2,1/Protocol 2/g' /etc/ssh/sshd_config
                 sed -i 's/Protocol 1,2/Protocol 2/g' /etc/ssh/sshd_config
                	echo $(date): Protocol rule detected in SSH >> /var/log/ryanlog.log
-        	msg=$(echo SSH Protocol changed to exclusively 1 | sed 's/\//%2F/g' | sed 's/\./%2E/g' | sed 's/\ /%20/g'  )
+        	
 		break>> /dev/null
 
 fi
@@ -94,7 +95,7 @@ grep X11Forwarding /etc/ssh/sshd_config | grep yes
 if [ $?==0 ]; then
                 sed -i 's/X11Forwarding yes/X11Forwarding no/g' /etc/ssh/sshd_config
                	echo $(date): X11Forwarding rule detected in SSH >> /var/log/ryanlog.log
-     	        msg=$(echo X11Forwarding rule changed to no | sed 's/\//%2F/g' | sed 's/\./%2E/g' | sed 's/\ /%20/g'  )
+     	        
 		break>> /dev/null
 
 fi
