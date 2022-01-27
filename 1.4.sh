@@ -66,7 +66,7 @@ if [ -e /etc/apache2/apache2.conf ]; then
 	echo \<Directory \/\> >> /etc/apache2/apache2.conf
 	echo UserDir disabled root >> /etc/apache2/apache2.conf
 	echo $(date): Apache security measures enabled >> /var/log/mikescript.log
-
+fi
 read -p "Press enter to Secure SSh"
 	
 echo ----------------------------------------------------------------
