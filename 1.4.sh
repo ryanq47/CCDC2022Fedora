@@ -121,7 +121,7 @@ if [ $?==0 ]; then
 
 
 fi
-cd /etc/sudoers.d && ls /etc/sudoers.d | grep -v cyberpatriot | grep -v scor | xargs rm
+
      	        #msg=$(echo Removed any sudoers.d rules other than cyberpatriot | sed 's/\//%2F/g' | sed 's/\./%2E/g' | sed 's/\ /%20/g'  )
 
 		
@@ -130,33 +130,16 @@ echo ----------------------------------------------------------------
 
 
 #CTRLALTDEL disable - CTRLALTDEL restarts the system on linux
-echo: Disabling CTRL ALT DELETE
+echo 'Disabling CTRL ALT DELETE'
 
-sed '/^exec/ c\exec false' /etc/init/control-alt-delete.conf 
-     	        #msg=$(echo Ctrl alt delete is disabled | sed 's/\//%2F/g' | sed 's/\./%2E/g' | sed 's/\ /%20/g' )
+#sed '/^exec/ c\exec false' /etc/init/control-alt-delete.conf 
+		#/usr/lib/systemd/system/ctrl-alt-del.target
+echo "exec true" >> /usr/lib/systemd/system/ctrl-alt-del.override
+# /etc/init/control-alt-delete.override
 
-
-read -p "Press enter to continue "
-
-echo ----------------------------------------------------------------
-
-#chattr lock -> last on purpose so things can be configured first
-read -p "Press enter to lock files with chattr"
-
-echo using chattr to lock files
-echo $(date): using chattr +i to lock files >> /var/log/ryanlog.log
-	chattr -R +i /sbin/nologin
-	chattr -R +i /etc/sudoers
-	chattr -R +i /etc/sudoers.d
-	chattr -R +i /etc/shadow
-	chattr -R +i /etc/passwd
-	chattr -R +i /etc/gpasswd
-	chattr -R +i /etc/group
-	chattr -R +i /etc/inittab
-	chattr -R +i /etc/sshd
-	chattr -R +i /etc/sshd
 
 read -p "Press enter to continue "
+
 
 echo ----------------------------------------------------------------
 
@@ -189,6 +172,27 @@ echo $(date): Logging media >> /var/log/ryanlog.log
 	find /home -name "*.gif" -type f -delete
 	find /home -name "*.tif" -type f -delete
 	find /home -name "*.tiff" -type f -delete
+
+
+echo ----------------------------------------------------------------
+
+#chattr lock -> last on purpose so things can be configured first
+read -p "Press enter to lock files with chattr"
+
+echo using chattr to lock files
+echo $(date): using chattr +i to lock files >> /var/log/ryanlog.log
+	chattr -R +i /sbin/nologin
+	chattr -R +i /etc/sudoers
+	chattr -R +i /etc/sudoers.d
+	chattr -R +i /etc/shadow
+	chattr -R +i /etc/passwd
+	chattr -R +i /etc/gpasswd
+	chattr -R +i /etc/group
+	chattr -R +i /etc/inittab
+	chattr -R +i /etc/sshd
+	chattr -R +i /etc/sshd
+
+read -p "Press enter to continue "
 
 
 
