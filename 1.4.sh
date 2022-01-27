@@ -24,7 +24,7 @@ echo Turning on firewalld
 	sudo systemctl start firewalld
 		echo "Firewall is on"
         echo $(date): firewalld turned on >> /var/log/ryanlog.log
-echo allowing ports 25 (SMTP) 110 (pop3) and 143 (IMAP) to be open
+echo 'Allowing ports 25 (SMTP) 110 (pop3) and 143 (IMAP) to be open'
 echo Check for additional ports and services that should not be open
 
 echo ----------------------------------------------------------------
