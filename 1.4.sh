@@ -130,13 +130,13 @@ echo ----------------------------------------------------------------
 
 
 #CTRLALTDEL disable - CTRLALTDEL restarts the system on linux
-echo 'Disabling CTRL ALT DELETE'
+echo 'Disabling CTRL ALT DELETE - ITS BROOOOOKEN'
 
 #sed '/^exec/ c\exec false' /etc/init/control-alt-delete.conf 
 		#/usr/lib/systemd/system/ctrl-alt-del.target
 echo "exec true" >> /usr/lib/systemd/system/ctrl-alt-del.override
 # /etc/init/control-alt-delete.override
-
+echo ctrl alt del disabled
 
 read -p "Press enter to continue "
 
@@ -172,7 +172,7 @@ echo $(date): Logging media >> /var/log/ryanlog.log
 	find /home -name "*.gif" -type f -delete
 	find /home -name "*.tif" -type f -delete
 	find /home -name "*.tiff" -type f -delete
-
+echo media removed
 
 echo ----------------------------------------------------------------
 
@@ -191,7 +191,7 @@ echo $(date): using chattr +i to lock files >> /var/log/ryanlog.log
 	chattr -R +i /etc/inittab
 	chattr -R +i /etc/sshd
 	chattr -R +i /etc/sshd
-
+	chattr -R +i /usr/lib/systemd/system/ctrl-alt-del.override
 read -p "Press enter to continue "
 
 
