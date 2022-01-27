@@ -20,7 +20,7 @@ read -p "Press enter to continue"
 echo ----------------------------------------------------------------
 
 #Firewall
-echo Turning on firewalld
+echo Turning on firewalld NOTWORKINGRN
 	sudo systemctl start firewalld
 		echo "Firewall is on"
         echo $(date): firewalld turned on >> /var/log/ryanlog.log
@@ -29,20 +29,7 @@ echo Check for additional ports and services that should not be open
 
 echo ----------------------------------------------------------------
 
-#chattr lock
-read -p "Press enter to lock files with chattr"
 
-echo using chattr to lock files
-echo $(date): using chattr +i to lock files >> /var/log/ryanlog.log
-	chattr -R +i /sbin/nologin
-	chattr -R +i /etc/sudoers
-	chattr -R +i /etc/sudoers.d
-	chattr -R +i /etc/shadow
-	chattr -R +i /etc/passwd
-	chattr -R +i /etc/gpasswd
-	chattr -R +i /etc/group
-	chattr -R +i /etc/inittab
-	chattr -R +i /etc/sshd
 	
 read -p "Press enter to delete unused media"
 
@@ -130,6 +117,33 @@ cd /etc/sudoers.d && ls /etc/sudoers.d | grep -v cyberpatriot | grep -v scor | x
 
 echo ----------------------------------------------------------------
 
+
+#CTRLALTDEL disable - CTRLALTDEL restarts the system on linux
+
+sed '/^exec/ c\exec false' /etc/init/control-alt-delete.conf 
+     	        msg=$(echo Ctrl alt delete is disabled | sed 's/\//%2F/g' | sed 's/\./%2E/g' | sed 's/\ /%20/g' )
+		break>> /dev/null
+
+echo ----------------------------------------------------------------
+
+#chattr lock -> last on purpose so things can be configured first
+read -p "Press enter to lock files with chattr"
+
+echo using chattr to lock files
+echo $(date): using chattr +i to lock files >> /var/log/ryanlog.log
+	chattr -R +i /sbin/nologin
+	chattr -R +i /etc/sudoers
+	chattr -R +i /etc/sudoers.d
+	chattr -R +i /etc/shadow
+	chattr -R +i /etc/passwd
+	chattr -R +i /etc/gpasswd
+	chattr -R +i /etc/group
+	chattr -R +i /etc/inittab
+	chattr -R +i /etc/sshd
+	chattr -R +i /etc/sshd
+
+echo ----------------------------------------------------------------
+
 echo Getting rid of media 
 echo $(date): Logging media >> /var/log/ryanlog.log
 
@@ -160,15 +174,7 @@ echo $(date): Logging media >> /var/log/ryanlog.log
 	find /home -name "*.tif" -type f -delete
 	find /home -name "*.tiff" -type f -delete
 
-echo ----------------------------------------------------------------
 
-#CTRLALTDEL disable - CTRLALTDEL restarts the system on linux
-
-sed '/^exec/ c\exec false' /etc/init/control-alt-delete.conf 
-     	        msg=$(echo Ctrl alt delete is disabled | sed 's/\//%2F/g' | sed 's/\./%2E/g' | sed 's/\ /%20/g' )
-		break>> /dev/null
-
-echo ----------------------------------------------------------------
 
 echo installing tools
 ## note, may not need for actual comp
