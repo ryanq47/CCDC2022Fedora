@@ -27,16 +27,13 @@ echo Turning on firewalld NOTWORKINGRN
 echo 'Allowing ports 25 (SMTP) 110 (pop3) and 143 (IMAP) to be open'
 echo Check for additional ports and services that should not be open
 
+read -p "Press enter to continue "
+
 echo ----------------------------------------------------------------
-
-
 	
-read -p "Press enter to delete unused media"
-
-echo ----------------------------------------------------------------
-
 #root only in chron
 echo Allowing only root in chron
+
 
 cd /etc/
 /bin/rm -f cron.deny at.deny
@@ -44,13 +41,19 @@ echo root >cron.allow
 echo root >at.allow
 /bin/chown root:root cron.allow at.allow
 /bin/chmod 400 cron.allow at.allow
-
-echo file permissions
-chown -R root:root /etc/apache2
-chown -R root:root /etc/apache
+echo 
 
 echo ----------------------------------------------------------------
 
+read -p "Press enter to continue "
+echo Setting root:root for apache/apache2 if present
+chown -R root:root /etc/apache2
+chown -R root:root /etc/apache
+
+
+echo ----------------------------------------------------------------
+read -p "Press enter to continue "
+echo 'securing apache 2'
 #Secure Apache 2
 if [ -e /etc/apache2/apache2.conf ]; then
 	echo \<Directory \> >> /etc/apache2/apache2.conf
@@ -60,9 +63,12 @@ if [ -e /etc/apache2/apache2.conf ]; then
 	echo \<Directory \/\> >> /etc/apache2/apache2.conf
 	echo UserDir disabled root >> /etc/apache2/apache2.conf
 	echo $(date): Apache security measures enabled >> /var/log/mikescript.log
+
+read -p "Press enter to Secure SSh"
 	
 echo ----------------------------------------------------------------
 
+echo Configuring SSH if present
 #SSH config
 cat /etc/ssh/sshd_config | grep PermitRootLogin | grep yes
 if [ $?==0 ]; then
@@ -90,8 +96,10 @@ if [ $?==0 ]; then
 
 fi
 
+read -p "Press enter to continue "
 echo ----------------------------------------------------------------
 
+echo Requiring password for sudoers file
 #sudiers file require a password
 grep PermitEmptyPasswords /etc/ssh/sshd_config | grep yes
 if [ $?==0 ]; then
@@ -114,15 +122,18 @@ cd /etc/sudoers.d && ls /etc/sudoers.d | grep -v cyberpatriot | grep -v scor | x
      	        msg=$(echo Removed any sudoers.d rules other than cyberpatriot | sed 's/\//%2F/g' | sed 's/\./%2E/g' | sed 's/\ /%20/g'  )
 		break>> /dev/null
 		
-
+read -p "Press enter to continue "
 echo ----------------------------------------------------------------
 
 
 #CTRLALTDEL disable - CTRLALTDEL restarts the system on linux
+echo: Disabling CTRL ALT DELETE
 
 sed '/^exec/ c\exec false' /etc/init/control-alt-delete.conf 
      	        msg=$(echo Ctrl alt delete is disabled | sed 's/\//%2F/g' | sed 's/\./%2E/g' | sed 's/\ /%20/g' )
 		break>> /dev/null
+
+read -p "Press enter to continue "
 
 echo ----------------------------------------------------------------
 
@@ -141,6 +152,8 @@ echo $(date): using chattr +i to lock files >> /var/log/ryanlog.log
 	chattr -R +i /etc/inittab
 	chattr -R +i /etc/sshd
 	chattr -R +i /etc/sshd
+
+read -p "Press enter to continue "
 
 echo ----------------------------------------------------------------
 
@@ -190,5 +203,3 @@ read -p "Press enter to install RKhunter - it will auto run a scan"
 	echo results logged at /var/log/rkhunter/rkhunter.log
 	
 	##finish up - uhhhm add stuff - find a way to make only root have access/check sudoers file etc
-	
-	
